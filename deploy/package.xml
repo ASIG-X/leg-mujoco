@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>go2_joystick_deploy</name>
+  <version>0.1.0</version>
+  <description>ROS 2 ONNX deployment node for MuJoCo Playground Go2 joystick policies.</description>
+  <maintainer email="maintainers@example.com">Go2 Deployment Maintainers</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>geometry_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>eigen</depend>
+  <depend>fmt</depend>
+  <depend>unitree_sdk2</depend>
+  <depend>yaml-cpp</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

@@ -1,0 +1,87 @@
+# Runtime settings for the Go2 joystick deployment node.
+
+control_freq: 50
+
+topics:
+  lowcmd: "rt/lowcmd"
+  lowstate: "rt/lowstate"
+  velocity_command: "/velocity_command"
+
+policy:
+  path: "model/policy_deploy.onnx"
+  input_name: "obs"
+  output_name: "actions"
+
+# Match Go2JoystickFlatTerrain training.
+control:
+  kp: 35.0  # Can be tuned for better performance on the real robot.
+  kd: 0.5  # Can be tuned for better performance on the real robot.
+  action_scale: 0.5
+  action_clip: 1.0
+  obs_clip: 100.0
+  command_clip:
+    x: 1.5
+    y: 1.0
+    yaw: 1.5
+  command_timeout_s: 0.25
+
+# MuJoCo Playground qpos/action order.
+# Policy home pose from Go2JoystickFlatTerrain training.
+default_angles:
+  FL_hip_joint: 0.1
+  FL_thigh_joint: 0.9
+  FL_calf_joint: -1.8
+  FR_hip_joint: -0.1
+  FR_thigh_joint: 0.9
+  FR_calf_joint: -1.8
+  RL_hip_joint: 0.1
+  RL_thigh_joint: 0.9
+  RL_calf_joint: -1.8
+  RR_hip_joint: -0.1
+  RR_thigh_joint: 0.9
+  RR_calf_joint: -1.8
+
+# Unitree stand example poses, converted from LowCmd motor order:
+# FR, FL, RR, RL -> FL, FR, RL, RR.
+stand_angles:
+  FL_hip_joint: -0.00571868
+  FL_thigh_joint: 0.608813
+  FL_calf_joint: -1.21763
+  FR_hip_joint: 0.00571868
+  FR_thigh_joint: 0.608813
+  FR_calf_joint: -1.21763
+  RL_hip_joint: -0.00571868
+  RL_thigh_joint: 0.608813
+  RL_calf_joint: -1.21763
+  RR_hip_joint: 0.00571868
+  RR_thigh_joint: 0.608813
+  RR_calf_joint: -1.21763
+
+sit_angles:
+  FL_hip_joint: -0.0473455
+  FL_thigh_joint: 1.22187
+  FL_calf_joint: -2.44375
+  FR_hip_joint: 0.0473455
+  FR_thigh_joint: 1.22187
+  FR_calf_joint: -2.44375
+  RL_hip_joint: -0.0473455
+  RL_thigh_joint: 1.22187
+  RL_calf_joint: -2.44375
+  RR_hip_joint: 0.0473455
+  RR_thigh_joint: 1.22187
+  RR_calf_joint: -2.44375
+
+startup:
+  stand_time_s: 3.0
+  stand_tau_s: 1.2
+  stand_kp_start: 20.0
+  stand_kp_end: 50.0
+  stand_kd: 3.5
+  hold_default_s: 1.0
+  sit_time_s: 3.0
+
+# Set true on the real robot if you want this node to call Unitree sport
+# StandDown and motion-switcher ReleaseMode before low-level control.
+# Keep false for unitree_mujoco.
+unitree_services:
+  enable: false
